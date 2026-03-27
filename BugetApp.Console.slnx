@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="../BugetApp.Models/BugetApp.Models.csproj" />
+  <Project Path="../BugetApp.Persistence/BugetApp.Persistence.csproj" Id="3aec1a01-eba5-4549-a1d7-6e7515153af8" />
+  <Project Path="../BugetApp.Services/BugetApp.Services.csproj" />
+  <Project Path="BugetApp.Console.csproj" />
+</Solution>
