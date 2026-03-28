@@ -1,0 +1,15 @@
+D:\Piu_Aplicatie\BugetApp.Persistence\bin\Debug\net10.0\BugetApp.Persistence.deps.json
+D:\Piu_Aplicatie\BugetApp.Persistence\bin\Debug\net10.0\BugetApp.Persistence.dll
+D:\Piu_Aplicatie\BugetApp.Persistence\bin\Debug\net10.0\BugetApp.Persistence.pdb
+D:\Piu_Aplicatie\BugetApp.Persistence\bin\Debug\net10.0\BugetApp.Models.dll
+D:\Piu_Aplicatie\BugetApp.Persistence\bin\Debug\net10.0\BugetApp.Models.pdb
+D:\Piu_Aplicatie\BugetApp.Persistence\obj\Debug\net10.0\BugetApp.Persistence.csproj.AssemblyReference.cache
+D:\Piu_Aplicatie\BugetApp.Persistence\obj\Debug\net10.0\BugetApp.Persistence.GeneratedMSBuildEditorConfig.editorconfig
+D:\Piu_Aplicatie\BugetApp.Persistence\obj\Debug\net10.0\BugetApp.Persistence.AssemblyInfoInputs.cache
+D:\Piu_Aplicatie\BugetApp.Persistence\obj\Debug\net10.0\BugetApp.Persistence.AssemblyInfo.cs
+D:\Piu_Aplicatie\BugetApp.Persistence\obj\Debug\net10.0\BugetApp.Persistence.csproj.CoreCompileInputs.cache
+D:\Piu_Aplicatie\BugetApp.Persistence\obj\Debug\net10.0\BugetApp.97647E04.Up2Date
+D:\Piu_Aplicatie\BugetApp.Persistence\obj\Debug\net10.0\BugetApp.Persistence.dll
+D:\Piu_Aplicatie\BugetApp.Persistence\obj\Debug\net10.0\refint\BugetApp.Persistence.dll
+D:\Piu_Aplicatie\BugetApp.Persistence\obj\Debug\net10.0\BugetApp.Persistence.pdb
+D:\Piu_Aplicatie\BugetApp.Persistence\obj\Debug\net10.0\ref\BugetApp.Persistence.dll

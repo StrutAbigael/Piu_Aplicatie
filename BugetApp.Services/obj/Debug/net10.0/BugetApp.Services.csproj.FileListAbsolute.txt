@@ -1,0 +1,15 @@
+D:\Piu_Aplicatie\BugetApp.Services\bin\Debug\net10.0\BugetApp.Services.deps.json
+D:\Piu_Aplicatie\BugetApp.Services\bin\Debug\net10.0\BugetApp.Services.dll
+D:\Piu_Aplicatie\BugetApp.Services\bin\Debug\net10.0\BugetApp.Services.pdb
+D:\Piu_Aplicatie\BugetApp.Services\bin\Debug\net10.0\BugetApp.Models.dll
+D:\Piu_Aplicatie\BugetApp.Services\bin\Debug\net10.0\BugetApp.Models.pdb
+D:\Piu_Aplicatie\BugetApp.Services\obj\Debug\net10.0\BugetApp.Services.csproj.AssemblyReference.cache
+D:\Piu_Aplicatie\BugetApp.Services\obj\Debug\net10.0\BugetApp.Services.GeneratedMSBuildEditorConfig.editorconfig
+D:\Piu_Aplicatie\BugetApp.Services\obj\Debug\net10.0\BugetApp.Services.AssemblyInfoInputs.cache
+D:\Piu_Aplicatie\BugetApp.Services\obj\Debug\net10.0\BugetApp.Services.AssemblyInfo.cs
+D:\Piu_Aplicatie\BugetApp.Services\obj\Debug\net10.0\BugetApp.Services.csproj.CoreCompileInputs.cache
+D:\Piu_Aplicatie\BugetApp.Services\obj\Debug\net10.0\BugetApp.AB5DFB41.Up2Date
+D:\Piu_Aplicatie\BugetApp.Services\obj\Debug\net10.0\BugetApp.Services.dll
+D:\Piu_Aplicatie\BugetApp.Services\obj\Debug\net10.0\refint\BugetApp.Services.dll
+D:\Piu_Aplicatie\BugetApp.Services\obj\Debug\net10.0\BugetApp.Services.pdb
+D:\Piu_Aplicatie\BugetApp.Services\obj\Debug\net10.0\ref\BugetApp.Services.dll

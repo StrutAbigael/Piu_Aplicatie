@@ -1,0 +1,11 @@
+D:\Piu_Aplicatie\BugetApp.Models\bin\Debug\net10.0\BugetApp.Models.deps.json
+D:\Piu_Aplicatie\BugetApp.Models\bin\Debug\net10.0\BugetApp.Models.dll
+D:\Piu_Aplicatie\BugetApp.Models\bin\Debug\net10.0\BugetApp.Models.pdb
+D:\Piu_Aplicatie\BugetApp.Models\obj\Debug\net10.0\BugetApp.Models.GeneratedMSBuildEditorConfig.editorconfig
+D:\Piu_Aplicatie\BugetApp.Models\obj\Debug\net10.0\BugetApp.Models.AssemblyInfoInputs.cache
+D:\Piu_Aplicatie\BugetApp.Models\obj\Debug\net10.0\BugetApp.Models.AssemblyInfo.cs
+D:\Piu_Aplicatie\BugetApp.Models\obj\Debug\net10.0\BugetApp.Models.csproj.CoreCompileInputs.cache
+D:\Piu_Aplicatie\BugetApp.Models\obj\Debug\net10.0\BugetApp.Models.dll
+D:\Piu_Aplicatie\BugetApp.Models\obj\Debug\net10.0\refint\BugetApp.Models.dll
+D:\Piu_Aplicatie\BugetApp.Models\obj\Debug\net10.0\BugetApp.Models.pdb
+D:\Piu_Aplicatie\BugetApp.Models\obj\Debug\net10.0\ref\BugetApp.Models.dll
