@@ -2,5 +2,6 @@
   <Project Path="../BugetApp.Models/BugetApp.Models.csproj" />
   <Project Path="../BugetApp.Persistence/BugetApp.Persistence.csproj" />
   <Project Path="../BugetApp.Services/BugetApp.Services.csproj" />
+  <Project Path="../BugetApp.WPF/BugetApp.WPF.csproj" Id="6d7aeb8c-5507-4435-bac2-5d2c1f9082c5" />
   <Project Path="BugetApp.Console.csproj" />
 </Solution>
