@@ -4,7 +4,6 @@ using BugetApp.Services;
 using System.Collections.Generic;
 using BugetApp.Persistence;
 
-
 namespace BugetApp.ConsoleApp
 {
     class Program
@@ -18,143 +17,93 @@ namespace BugetApp.ConsoleApp
 
             while (true)
             {
-                Console.WriteLine("\n- GESTIUNE BUGET -");
-                Console.WriteLine("\n1. Adaugare tranzactie");
+                Console.WriteLine("\n--- GESTIUNE BUGET ---");
+                Console.WriteLine("1. Adaugare tranzactie");
                 Console.WriteLine("2. Stergere tranzactie");
-                Console.WriteLine("3. Afisare lista tranzactii");
-                Console.WriteLine("4. Calcul total venituri");
-                Console.WriteLine("5. Calcul total cheltuieli");
-                Console.WriteLine("6. Calcul sold");
-                Console.WriteLine("7. Afisare raport financiar");
-                Console.WriteLine("8. Modificare date");
-                Console.WriteLine("9. Salveaza datele in fisier text.");
+                Console.WriteLine("3. Afisare lista completa tranzactii");
+                Console.WriteLine("4. Afisare Sold si Raport Financiar");
+                Console.WriteLine("5. Cautare dupa Tip (Venit/Cheltuiala)"); 
+                Console.WriteLine("6. Modificare date"); 
+                Console.WriteLine("7. Salveaza datele in fisier"); 
                 Console.WriteLine("0. Iesire");
 
                 Console.Write("\nAlegeti optiunea: ");
                 string opt = Console.ReadLine();
 
-
                 if (opt == "1")
                 {
-                    Console.Write(" Introduceti suma: ");
+                    Console.Write("Introduceti suma: ");
                     double suma = double.Parse(Console.ReadLine());
-
                     Console.Write("Tip (0-Venit, 1-Cheltuiala): ");
                     TipTranzactie tip = (TipTranzactie)int.Parse(Console.ReadLine());
-
                     Console.WriteLine("Optiuni (1-Urgent, 2-Personal, 4-Recurent, 8-Esential): ");
                     OptiuniTranzactie optiuni = (OptiuniTranzactie)int.Parse(Console.ReadLine());
-
                     Console.Write("Descriere: ");
                     string descriere = Console.ReadLine();
 
                     Tranzactie nouaTranzactie = new Tranzactie(suma, tip, optiuni, DateTime.Now, descriere);
                     service.AdaugaTranzactie(nouaTranzactie);
-
                     Console.WriteLine("Tranzactie adaugata cu succes!");
-
                 }
                 else if (opt == "2")
                 {
                     var lista = service.GetAll();
                     for (int i = 0; i < lista.Count; i++)
-                    {
                         Console.WriteLine($"{i}. {lista[i].Descriere} - {lista[i].Suma} ({lista[i].Tip})");
-                    }
 
                     Console.Write("Index de sters: ");
                     int index = int.Parse(Console.ReadLine());
-
                     service.Sterge(index);
-
-
+                    Console.WriteLine("Tranzactie stearsa!");
                 }
                 else if (opt == "3")
                 {
                     var lista = service.GetAll();
-                    if (lista.Count == 0) Console.WriteLine("Lista este goală.");
-                    foreach (var t in lista)
-                    {
-                        t.Afisare();
-                    }
-
+                    if (lista.Count == 0) Console.WriteLine("Lista este goala.");
+                    foreach (var t in lista) t.Afisare();
                 }
-                else if (opt == "4")
+                else if (opt == "4") 
                 {
-
-                    Console.WriteLine($"Total venituri: {service.TotalVenituri()}");
-
+                    Console.WriteLine("\n--- RAPORT FINANCIAR COMPLET ---");
+                    Console.WriteLine($"Total Venituri:   {service.TotalVenituri()} RON");
+                    Console.WriteLine($"Total Cheltuieli: {service.TotalCheltuieli()} RON");
+                    Console.WriteLine("-------------------------------");
+                    Console.WriteLine($"SOLD CURENT:      {service.Sold()} RON");
                 }
-                else if (opt == "5")
+                else if (opt == "5") 
                 {
-
-                    Console.WriteLine($"Total cheltuieli: {service.TotalCheltuieli()}");
-
+                    Console.Write("Introduceti tipul cautat (0-Venit, 1-Cheltuiala): ");
+                    TipTranzactie tipCautat = (TipTranzactie)int.Parse(Console.ReadLine());
+                    service.CautaDupaTip(tipCautat);
                 }
-                else if (opt == "6")
+                else if (opt == "6") 
                 {
-
-                    Console.WriteLine($"Sold: {service.Sold()}");
-
-
-                }
-                else if (opt == "7")
-                {
-
-                    Console.WriteLine("\n--- RAPORT ---");
-                    Console.WriteLine($"Venituri: {service.TotalVenituri()}");
-                    Console.WriteLine($"Cheltuieli: {service.TotalCheltuieli()}");
-                    Console.WriteLine($"Sold: {service.Sold()}");
-
-                }
-
-                else if (opt == "8")
-                {
-
                     var lista = service.GetAll();
                     for (int i = 0; i < lista.Count; i++)
-                    {
                         Console.WriteLine($"{i}. {lista[i].Descriere} - {lista[i].Suma} RON");
-                    }
 
-                    Console.Write("\nIntroduceti indexul tranzactiei de modificat: ");
+                    Console.Write("\nIndex tranzactie de modificat: ");
                     int index = int.Parse(Console.ReadLine());
 
                     if (index >= 0 && index < lista.Count)
                     {
-                        Console.WriteLine("--- Introduceti noile date ---");
-
                         Console.Write("Noua Suma: ");
                         double suma = double.Parse(Console.ReadLine());
-
                         Console.Write("Nou Tip (0-Venit, 1-Cheltuiala): ");
                         TipTranzactie tip = (TipTranzactie)int.Parse(Console.ReadLine());
-
                         Console.Write("Noi Optiuni (1-Urgent, 2-Personal, 4-Recurent): ");
                         OptiuniTranzactie optiuni = (OptiuniTranzactie)int.Parse(Console.ReadLine());
-
                         Console.Write("Noua Descriere: ");
                         string descriere = Console.ReadLine();
 
-
-                        Tranzactie tranzactieEditata = new Tranzactie(suma, tip, optiuni, DateTime.Now, descriere);
-
-
-                        service.Modifica(index, tranzactieEditata);
-
-
-                        fileService.SalveazaTranzactii(service.GetAll());
-
-                        Console.WriteLine("Tranzactia a fost modificatt si salvata!");
+                        service.Modifica(index, new Tranzactie(suma, tip, optiuni, DateTime.Now, descriere));
+                        Console.WriteLine("Modificare realizata!");
                     }
-
-
-
                 }
-                else if (opt == "9")
+                else if (opt == "7") 
                 {
                     fileService.SalveazaTranzactii(service.GetAll());
-                    Console.WriteLine("Datele au fost salvate in fisier!");
+                    Console.WriteLine("Date salvate cu succes!");
                 }
                 else if (opt == "0")
                 {
@@ -163,9 +112,8 @@ namespace BugetApp.ConsoleApp
                 }
                 else
                 {
-                    Console.WriteLine("Index invalid!");
+                    Console.WriteLine("Optiune invalida!");
                 }
-
             }
         }
     }
