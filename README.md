@@ -8,12 +8,14 @@ Scopul aplicației este de a permite utilizatorului să își înregistreze și 
 
 Utilizatorul poate adăuga tranzacții financiare, specificând suma, tipul tranzacției, data și o descriere. 
 
-## Funcționalități
+## Ce face aplicația:
 
-- Adăugare tranzacție 
-- Ștergere tranzacție
-- Afișare listă tranzacții
-- Calcul total venituri
-- Calcul total cheltuieli
-- Calcul sold
-- Afișare raport financiar
+- Înregistrare: Poți adăuga venituri și cheltuieli cu descriere și sumă.
+
+- Organizare: Tranzacțiile pot fi marcate ca fiind Urgente sau Esențiale.
+
+- Rapoarte: Calculează automat câți bani mai ai disponibili (Soldul).
+
+- Filtrare: Poți vedea separat doar lista de venituri sau doar cea de cheltuieli.
+
+- Salvare: Toate datele sunt salvate într-un fișier text, deci nu se pierd când închizi programul.

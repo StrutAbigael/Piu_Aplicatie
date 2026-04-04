@@ -31,18 +31,19 @@ namespace BugetApp.Services
             if (index >= 0 && index < tranzactii.Count)
                 tranzactii.RemoveAt(index);
         }
-
+        
         public void AfisareToate()
         {
             foreach (var t in tranzactii) t.Afisare();
         }
 
+        
         public double TotalVenituri() =>
             tranzactii.Where(t => t.Tip == TipTranzactie.Venit).Sum(t => t.Suma);
 
         public double TotalCheltuieli() =>
             tranzactii.Where(t => t.Tip == TipTranzactie.Cheltuiala).Sum(t => t.Suma);
-
+        
         public double Sold()
         {
             return TotalVenituri() - TotalCheltuieli();
