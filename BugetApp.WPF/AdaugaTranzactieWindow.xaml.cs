@@ -5,52 +5,25 @@ using BugetApp.Models;
 
 namespace BugetApp.WPF
 {
-    public partial class MainWindow : Window
+    public partial class AdaugaTranzactieWindow : Window
     {
         private const double MIN_SUMA = 1.0;
         private const int MIN_LUNGIME_DESCRIERE = 3;
         private const int MAX_LUNGIME_DESCRIERE = 100;
 
-        // Culoarea etichetelor cand sunt corecte (Tobago #422B23)
-        private readonly SolidColorBrush _culoareValid = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#422B23")); 
+        // Culoarea textului corect bazat pe paleta (#FBE4D8)
+        private readonly SolidColorBrush _culoareValid = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FBE4D8")); 
+        
+        // Cand e incorect ramane roșu pentru vizibilitate
         private readonly SolidColorBrush _culoareInvalid = new SolidColorBrush(Colors.Red);
 
-        public MainWindow()
+        public AdaugaTranzactieWindow()
         {
             InitializeComponent();
             
             cmbTip.ItemsSource = Enum.GetValues(typeof(TipTranzactie));
             cmbTip.SelectedIndex = 0; 
             dpData.SelectedDate = DateTime.Now;
-        }
-
-        private void btnDeschideAdaugare_Click(object sender, RoutedEventArgs e)
-        {
-            // Ascundem pagina de pornire și afișăm formularul
-            HomeView.Visibility = Visibility.Collapsed;
-            AddView.Visibility = Visibility.Visible;
-            
-            // Resetăm formularul la deschidere ca să fie gol
-            txtError.Text = "";
-            txtSuma.Text = "";
-            txtDescriere.Text = "";
-            chkUrgent.IsChecked = false;
-            chkPersonal.IsChecked = false;
-            chkRecurent.IsChecked = false;
-            chkEsential.IsChecked = false;
-            cmbTip.SelectedIndex = 0;
-            dpData.SelectedDate = DateTime.Now;
-            
-            lblSuma.Foreground = _culoareValid;
-            lblDescriere.Foreground = _culoareValid;
-            lblData.Foreground = _culoareValid;
-        }
-
-        private void btnInapoi_Click(object sender, RoutedEventArgs e)
-        {
-            // Ne întoarcem la pagina principală
-            AddView.Visibility = Visibility.Collapsed;
-            HomeView.Visibility = Visibility.Visible;
         }
 
         private void btnAdauga_Click(object sender, RoutedEventArgs e)
@@ -87,6 +60,7 @@ namespace BugetApp.WPF
 
             if (!isValid)
             {
+                txtError.Foreground = _culoareInvalid;
                 txtError.Text = "Erori de validare:\n" + errorMessage;
                 return;
             }
@@ -112,9 +86,14 @@ namespace BugetApp.WPF
                 $"Opțiuni: {tranzactieNoua.Optiuni}", 
                 "Succes", MessageBoxButton.OK, MessageBoxImage.Information);
                 
-            // Dupa salvare, ne putem intoarce automat la meniul principal:
-            AddView.Visibility = Visibility.Collapsed;
-            HomeView.Visibility = Visibility.Visible;
+            txtSuma.Text = "";
+            txtDescriere.Text = "";
+            chkUrgent.IsChecked = false;
+            chkPersonal.IsChecked = false;
+            chkRecurent.IsChecked = false;
+            chkEsential.IsChecked = false;
+            cmbTip.SelectedIndex = 0;
+            dpData.SelectedDate = DateTime.Now;
         }
     }
 }
