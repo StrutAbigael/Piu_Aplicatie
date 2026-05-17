@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 using System.Windows;
+using System.IO;
 using System.Windows.Controls;
 using BugetApp.Models;
 
@@ -10,7 +11,7 @@ namespace BugetApp.WPF
 {
     public class DailyChartData
     {
-        public string DayName { get; set; }
+        public string DayName { get; set; } = string.Empty;
         public double IncomeHeight { get; set; }
         public double ExpenseHeight { get; set; }
     }
@@ -24,6 +25,7 @@ namespace BugetApp.WPF
         private ObservableCollection<Tranzactie> _tranzactii;
         private ObservableCollection<Tranzactie> _filteredTranzactii;
         private ObservableCollection<DailyChartData> _chartData;
+        private readonly string _fisierTranzactii = "tranzactii.txt";
 
         public MainWindow()
         {
@@ -38,6 +40,7 @@ namespace BugetApp.WPF
             icDays.ItemsSource = _chartData;
 
             dpData.SelectedDate = DateTime.Now;
+            IncarcaTranzactiiDinFisier();
             UpdateBalance();
             UpdateChart();
         }
@@ -131,12 +134,88 @@ namespace BugetApp.WPF
             
             _tranzactii.Insert(0, tranzactieNoua);
             
+            SalveazaTranzactiiInFisier();
+            
             ApplySearchFilter();
             UpdateBalance();
             UpdateChart();
             
             AddView.Visibility = Visibility.Collapsed;
             HomeView.Visibility = Visibility.Visible;
+        }
+
+        private void btnOpenTransfer_Click(object sender, RoutedEventArgs e)
+        {
+            HomeView.Visibility = Visibility.Collapsed;
+            ActivityView.Visibility = Visibility.Collapsed;
+            AddView.Visibility = Visibility.Collapsed;
+            QuickTransferView.Visibility = Visibility.Visible;
+
+            txtSendPhone.Text = "";
+            txtSendName.Text = "";
+            txtSendAmount.Text = "";
+            txtSendDesc.Text = "";
+        }
+
+        private void btnInapoiTransfer_Click(object sender, RoutedEventArgs e)
+        {
+            QuickTransferView.Visibility = Visibility.Collapsed;
+            HomeView.Visibility = Visibility.Visible;
+        }
+
+        private void btnTrimiteRapid_Click(object sender, RoutedEventArgs e)
+        {
+            string telefon = txtSendPhone.Text.Trim();
+            string nume = txtSendName.Text.Trim();
+            string descriere = txtSendDesc.Text.Trim();
+
+            if (telefon.Length == 0 || nume.Length == 0 || descriere.Length == 0 || string.IsNullOrWhiteSpace(txtSendAmount.Text))
+            {
+                MessageBox.Show("Toate câmpurile trebuie completate!", "Eroare", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            if (telefon.Length > 10 || !telefon.All(char.IsDigit))
+            {
+                MessageBox.Show("Numărul de telefon trebuie să conțină maxim 10 cifre!", "Eroare", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            if (!double.TryParse(txtSendAmount.Text, out double suma) || suma <= 0)
+            {
+                MessageBox.Show("Suma introdusă nu este validă!", "Eroare", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            double currentBalance = _tranzactii.Where(t => t.Tip == TipTranzactie.Venit).Sum(t => t.Suma) - 
+                                    _tranzactii.Where(t => t.Tip == TipTranzactie.Cheltuiala).Sum(t => t.Suma);
+
+            if (suma > currentBalance)
+            {
+                MessageBox.Show($"Fonduri insuficiente! Soldul tău curent este de {currentBalance:N2} RON.", "Eroare", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            string descriereCompleta = $"Transfer către {nume} ({telefon}) - {descriere}";
+            
+            Tranzactie transferNou = new Tranzactie(suma, TipTranzactie.Cheltuiala, OptiuniTranzactie.None, DateTime.Now, descriereCompleta, "Transfer", "Transfer");
+            
+            _tranzactii.Insert(0, transferNou);
+            SalveazaTranzactiiInFisier();
+            
+            ApplySearchFilter();
+            UpdateBalance();
+            UpdateChart();
+
+            txtSendPhone.Text = "";
+            txtSendName.Text = "";
+            txtSendAmount.Text = "";
+            txtSendDesc.Text = "";
+
+            QuickTransferView.Visibility = Visibility.Collapsed;
+            HomeView.Visibility = Visibility.Visible;
+
+            MessageBox.Show($"Ai transferat {suma} RON către {nume} cu succes!", "Transfer Reușit", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void txtSearch_TextChanged(object sender, TextChangedEventArgs e)
@@ -212,6 +291,68 @@ namespace BugetApp.WPF
                     IncomeHeight = incomeHeight,
                     ExpenseHeight = expenseHeight
                 });
+            }
+        }
+
+        private void SalveazaTranzactiiInFisier()
+        {
+            try
+            {
+                using (StreamWriter sw = new StreamWriter(_fisierTranzactii))
+                {
+                    foreach (var t in _tranzactii)
+                    {
+                        // Format CSV: Suma,Tip,Optiuni,Data,Descriere,Categorie,MetodaPlata
+                        string linie = $"{t.Suma},{t.Tip},{(int)t.Optiuni},{t.Data:yyyy-MM-dd HH:mm:ss},{t.Descriere},{t.Categorie},{t.MetodaPlata}";
+                        sw.WriteLine(linie);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Eroare la salvarea fisierului: {ex.Message}");
+            }
+        }
+
+        private void IncarcaTranzactiiDinFisier()
+        {
+            if (!File.Exists(_fisierTranzactii)) return;
+
+            try
+            {
+                string[] linii = File.ReadAllLines(_fisierTranzactii);
+                foreach (string linie in linii)
+                {
+                    if (string.IsNullOrWhiteSpace(linie)) continue;
+
+                    string[] fragmente = linie.Split(',');
+                    if (fragmente.Length >= 5)
+                    {
+                        if (double.TryParse(fragmente[0], out double suma) &&
+                            Enum.TryParse(fragmente[1], out TipTranzactie tip) &&
+                            Enum.TryParse(fragmente[2], out OptiuniTranzactie optiuni) &&
+                            DateTime.TryParse(fragmente[3], out DateTime data))
+                        {
+                            string descriere = fragmente[4];
+                            string categorie = fragmente.Length > 5 ? fragmente[5] : "Altele";
+                            string metodaPlata = fragmente.Length > 6 ? fragmente[6] : "Cash";
+
+                            Tranzactie t = new Tranzactie(suma, tip, optiuni, data, descriere, categorie, metodaPlata);
+                            _tranzactii.Add(t);
+                        }
+                    }
+                }
+                
+                // Actualizeaza lista filtrata initial
+                _filteredTranzactii.Clear();
+                foreach (var t in _tranzactii)
+                {
+                    _filteredTranzactii.Add(t);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Eroare la citirea fisierului: {ex.Message}");
             }
         }
     }
