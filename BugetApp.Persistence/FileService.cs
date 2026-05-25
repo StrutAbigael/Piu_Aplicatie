@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using BugetApp.Models;
@@ -22,7 +22,7 @@ namespace BugetApp.Persistence
             foreach (var t in tranzactii)
             {
                 // Salvăm datele separate prin virgulă sau punct și virgulă
-                string linie = $"{t.Suma};{t.Tip};{(int)t.Optiuni};{t.Data};{t.Descriere}";
+                string linie = $"{t.Suma};{t.Tip};{(int)t.Optiuni};{t.Data};{t.Descriere};{t.Categorie};{t.MetodaPlata}";
                 linii.Add(linie);
             }
             File.WriteAllLines(_caleFisier, linii);
@@ -39,15 +39,20 @@ namespace BugetApp.Persistence
             foreach (string linie in linii)
             {
                 string[] parti = linie.Split(';');
-                if (parti.Length == 5)
+                if (parti.Length == 7)
                 {
-                    double suma = double.Parse(parti[0]);
-                    TipTranzactie tip = (TipTranzactie)Enum.Parse(typeof(TipTranzactie), parti[1]);
-                    OptiuniTranzactie opt = (OptiuniTranzactie)int.Parse(parti[2]);
-                    DateTime data = DateTime.Parse(parti[3]);
-                    string desc = parti[4];
+                    if (double.TryParse(parti[0], out double suma) &&
+                        Enum.TryParse(parti[1], out TipTranzactie tip) &&
+                        int.TryParse(parti[2], out int optInt) &&
+                        DateTime.TryParse(parti[3], out DateTime data))
+                    {
+                        OptiuniTranzactie opt = (OptiuniTranzactie)optInt;
+                        string desc = parti[4];
+                        string categorie = parti[5];
+                        string metodaPlata = parti[6];
 
-                    lista.Add(new Tranzactie(suma, tip, opt, data, desc));
+                        lista.Add(new Tranzactie(suma, tip, opt, data, desc, categorie, metodaPlata));
+                    }
                 }
             }
             return lista;

@@ -10,6 +10,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BugetApp.Models\BugetApp.Models.csproj" />
+    <ProjectReference Include="..\BugetApp.Persistence\BugetApp.Persistence.csproj" />
   </ItemGroup>
 
 </Project>

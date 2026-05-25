@@ -1,4 +1,6 @@
 using System;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace BugetApp.Models
 {
@@ -18,16 +20,64 @@ namespace BugetApp.Models
         Esential = 8
     }
 
-    public class Tranzactie
+    public class Tranzactie : INotifyPropertyChanged
     {
-        public Guid Id { get; private set; }
-        public double Suma { get; set; }
-        public TipTranzactie Tip { get; set; } 
-        public OptiuniTranzactie Optiuni { get; set; } 
-        public DateTime Data { get; set; }
-        public string Descriere { get; set; }
-        public string Categorie { get; set; }
-        public string MetodaPlata { get; set; }
+        private Guid _id;
+        private double _suma;
+        private TipTranzactie _tip;
+        private OptiuniTranzactie _optiuni;
+        private DateTime _data;
+        private string _descriere;
+        private string _categorie;
+        private string _metodaPlata;
+
+        public Guid Id
+        {
+            get => _id;
+            private set { _id = value; OnPropertyChanged(); }
+        }
+        
+        public double Suma
+        {
+            get => _suma;
+            set { _suma = value; OnPropertyChanged(); }
+        }
+        
+        public TipTranzactie Tip
+        {
+            get => _tip;
+            set { _tip = value; OnPropertyChanged(); }
+        }
+        
+        public OptiuniTranzactie Optiuni
+        {
+            get => _optiuni;
+            set { _optiuni = value; OnPropertyChanged(); }
+        }
+        
+        public DateTime Data
+        {
+            get => _data;
+            set { _data = value; OnPropertyChanged(); }
+        }
+        
+        public string Descriere
+        {
+            get => _descriere;
+            set { _descriere = value; OnPropertyChanged(); }
+        }
+        
+        public string Categorie
+        {
+            get => _categorie;
+            set { _categorie = value; OnPropertyChanged(); }
+        }
+        
+        public string MetodaPlata
+        {
+            get => _metodaPlata;
+            set { _metodaPlata = value; OnPropertyChanged(); }
+        }
 
         public Tranzactie(double suma, TipTranzactie tip, OptiuniTranzactie optiuni, DateTime data, string descriere, string categorie = "Altele", string metodaPlata = "Cash")
         {
@@ -43,8 +93,14 @@ namespace BugetApp.Models
 
         public void Afisare()
         {
-           
             Console.WriteLine($"{Data.ToShortDateString()} | {Tip} | {Optiuni} | {Suma} RON | {Descriere}");
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
